@@ -38,6 +38,8 @@ for path_count, path in enumerate(dpa_mps.shortest_simple_paths(source=origin['o
     if path_count == n_paths:
         break
       
+print(paths)    
+    
 from shapely.geometry import LineString, Point
 route_line=[]
 route_geom=gpd.GeoDataFrame(geometry='geometry', crs=edges_proj.crs, columns=['geometry','length_m'])      
