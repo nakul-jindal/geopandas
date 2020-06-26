@@ -45,7 +45,7 @@ route_line=[]
 route_geom=gpd.GeoDataFrame(geometry='geometry', crs=edges_proj.crs, columns=['geometry','length_m'])      
 
 for i in range(len(paths)):    
-    fig, ax = ox.plot_graph_route(graph_proj, paths[i], origin_point= (origin['x'] , origin['y']) , destination_point= (origin['x'] , origin['y']))
+    fig, ax = ox.plot_graph_route(graph_proj, paths[i], origin_point= (origin['x'] , origin['y']) , destination_point= (destination['x'] , destination['y']))
     route_nodes=nodes_proj.loc[paths[i]]
     route_line.append(LineString(list(route_nodes.geometry.values)))
     temp= gpd.GeoDataFrame([[route_line[i]]], geometry='geometry', crs=edges_proj.crs, columns=['geometry'])
