@@ -20,7 +20,7 @@ pois = ox.pois_from_place(place_name)
 pois_proj=ox.project_gdf(pois)    #project pois
 
 # randomly pick poi
-point=pois_proj.iloc[2].geometry 
+point=pois_proj.iloc[0].geometry 
 
 def get_closest_point_on_line(line: LineString, point: Point) -> Point:
     #Finds the closest point on a line to given point and returns it as Point.
@@ -56,4 +56,16 @@ ax.scatter(nn.x, nn.y, c='g', marker='x')
 #x, y = split_line[1].xy
 ax.plot(x, y, alpha=0.7, linewidth=3, solid_capstyle='round', zorder=2)
 plt.show()         
+
+def add_split_edge_to_graph(G,point) :
+    n_edge=ox.get_nearest_edge(G, (point.y ,point.x))
+    n_node=get_closest_point_on_line(n_edge[0],point)
+    split_line=get_split_lines(n_edge[0], n_node)
+    if (split_line[0].coords[0]==n_edge[0].coords[0]):
+        G.add_edge(n_edge[1], 1, key=n_edge[3], geometry=split_line[0])
+        G.add_edge(1, n_edge[2], key=n_edge[3], geometry=split_line[1])
+    else :
+        G.add_edge(n_edge[1], 1, key=n_edge[3], geometry=split_line[1])
+        G.add_edge(1, n_edge[2], key=n_edge[3], geometry=split_line[0])
+    return G , n_edge  
          
